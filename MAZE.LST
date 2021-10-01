@@ -1,0 +1,73 @@
+DEFWRD "a-z"
+main(2)
+EDIT
+'
+PROCEDURE main(difficulty)
+  REPEAT
+    CLS
+    frame
+    stars(400-100*difficulty)
+    DEFFILL 3
+    PRBOX 150,90,169,109
+    r=@game(difficulty)
+    IF r=3
+      ALERT 1,"VICTOIRE!",1,"ENCORE|PLUS DUR!|QUITTER",r
+    ELSE
+      ALERT 3,"GAME OVER!",1,"ENCORE|PLUS DUR!|QUITTER",r
+    ENDIF
+    IF r=2 AND difficulty>0
+      DEC difficulty
+    ENDIF
+  UNTIL r=3
+RETURN
+FUNCTION game(dly)
+  COLOR 1
+  x=309
+  y=199
+  dx=0
+  dy=-1
+  KEYGET k%
+  REPEAT
+    KEYTEST k%
+    a=AND(k%,&HFF)
+    c=AND(SHR(k%,16),&HFF)
+    SELECT c
+    CASE &H4B
+      dx=-1
+      dy=0
+    CASE &H4D
+      dx=1
+      dy=0
+    CASE &H48
+      dy=-1
+      dx=0
+    CASE &H50
+      dy=1
+      dx=0
+    ENDSELECT
+    x=x+dx
+    y=y+dy
+    EXIT IF POINT(x,y)
+    PLOT x,y
+    PAUSE dly
+    VSYNC
+  UNTIL a=27
+  RETURN POINT(x,y)
+ENDFUNC
+PROCEDURE frame
+  COLOR 1
+  FOR i&=0 TO 99 STEP 20
+    x&=i&
+    y&=i&
+    LINE x&,y&,x&,199-y&
+    LINE 319-x&,y&,319-x&,219-y&
+    LINE x&,y&,319-x&,y&
+    LINE x&,199-y&,299-x&,199-y&
+  NEXT i&
+RETURN
+PROCEDURE stars(n&)
+  COLOR 1
+  FOR i&=1 TO n&
+    PLOT RAND(320),RAND(200)
+  NEXT i&
+RETURN

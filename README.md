@@ -1,2 +1,3 @@
-# gfa_maze
-my first BASIC program from Thomson MO5 redone in Atari ST GfA BASIC
+# GfA Maze
+
+My first BASIC project on Thomson MO5, now redone in GfA BASIC on Atari ST.
